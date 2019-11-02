@@ -7,6 +7,11 @@ This is a simple mini-microservice example that showcases resilience capabilitie
 
 These will be used by `resilientApp` when interacting with `failingApp`.
 
+## TBD
+
+[] Implement intermittent failures in `failingApp`
+[] Implement resilience features in `resilientApp`
+
 ## ResilientApp
 
 `resilientApp` gives callers recommendations on what to wear in a given Location. At accepts a location ID and returns an appropriate outfit. The appropriate outfit is decided upon according to the current temperature at the specified location. The most recent temperature reading is retrieved from `failingApp`, which is likely to fail.
