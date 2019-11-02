@@ -9,8 +9,8 @@ These will be used by `resilientApp` when interacting with `failingApp`.
 
 ## TBD
 
-[] Implement intermittent failures in `failingApp`
-[] Implement resilience features in `resilientApp`
+* Implement intermittent failures in `failingApp`
+* Implement resilience features in `resilientApp`
 
 ## ResilientApp
 
