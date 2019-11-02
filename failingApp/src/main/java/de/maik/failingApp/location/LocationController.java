@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/location")
+@RequestMapping("/locations")
 public class LocationController {
 
     private static Logger logger;
@@ -22,7 +22,7 @@ public class LocationController {
     }
 
     @GetMapping("/{locationId}/temperature")
-    public double getTemperatureForLocationId(@PathVariable int locationId) {
+    public Temperature getTemperatureForLocationId(@PathVariable int locationId) {
         logger.info("Retrieving temperature for location '{}'.", locationId);
         return locationService.getTemperature(locationId);
     }
