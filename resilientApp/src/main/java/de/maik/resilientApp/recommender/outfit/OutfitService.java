@@ -25,11 +25,14 @@ public class OutfitService {
         this.suitableOutfits = initializeOutfitMapping();
     }
 
-    public String recommendForLocation(int locationId) {
+    public OutfitRecommendation recommendForLocation(int locationId) {
+        OutfitRecommendation recommendation = new OutfitRecommendation();
         Temperature temperatureReading = retrieveTemperature(locationId);
-        Outfit recommendedOutfit = recommendOutfit(temperatureReading);
 
-        return recommendedOutfit.value;
+        recommendation.setLocationId(locationId);
+        recommendation.setOutfit(recommendOutfit(temperatureReading));
+
+        return recommendation;
     }
 
     private Temperature retrieveTemperature(int locationId) {

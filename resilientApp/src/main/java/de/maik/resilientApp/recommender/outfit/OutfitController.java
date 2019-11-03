@@ -22,7 +22,7 @@ public class OutfitController {
     }
 
     @GetMapping("/{locationId}")
-    public String getRecommendedOutfitForLocation(@PathVariable int locationId) {
+    public OutfitRecommendation getRecommendedOutfitForLocation(@PathVariable int locationId) {
         logger.info("Retrieving outfit recommendation for location '{}'.", locationId);
         return outfitService.recommendForLocation(locationId);
     }
