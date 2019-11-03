@@ -27,8 +27,8 @@ public class OutfitService {
 
     public OutfitRecommendation recommendForLocation(int locationId) {
         OutfitRecommendation recommendation = new OutfitRecommendation();
-        Temperature temperatureReading = retrieveTemperature(locationId);
 
+        Temperature temperatureReading = retrieveTemperature(locationId);
         recommendation.setLocationId(locationId);
         recommendation.setOutfit(recommendOutfit(temperatureReading));
 
