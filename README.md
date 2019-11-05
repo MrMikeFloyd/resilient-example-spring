@@ -2,19 +2,18 @@
 
 This is a simple mini-microservice example that showcases resilience capabilities by Spring, namely:
 
-* Retry
-* Circuit Breaker
+* Circuit Breaker (using Hystrix)
 
 These will be used by `resilientApp` when interacting with `failingApp`.
 
 ## TBD
 
-* Implement intermittent failures in `failingApp`
-* Implement resilience features in `resilientApp`
+* Implement more resilience use cases
 
 ## ResilientApp
 
-`resilientApp` gives callers recommendations on what to wear in a given Location. At accepts a location ID and returns an appropriate outfit. The appropriate outfit is decided upon according to the current temperature at the specified location. The most recent temperature reading is retrieved from `failingApp`, which is likely to fail.
+`resilientApp` gives callers recommendations on what to wear in a given Location. It accepts a location ID and returns an appropriate outfit. The appropriate outfit is decided upon according to the current temperature at the specified location. The most recent temperature reading is retrieved from `failingApp`, which is likely to fail.
+In order to handle failing calls, Hystrix Circuit Breaker is used, defaulting to a fixed temperature value.
 
 ## FailingApp
 
