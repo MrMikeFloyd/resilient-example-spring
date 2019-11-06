@@ -8,7 +8,8 @@ These will be used by `resilientApp` when interacting with `failingApp`.
 
 ## TBD
 
-* Implement more resilience use cases
+* Use Feign to make REST call to FailingApp
+* Add Hystrix Dashboard
 
 ## ResilientApp
 
@@ -26,3 +27,4 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, defaulting to
 3. Start `resilientApp` (`cd resilientApp && mvn spring-boot:run`)
 4. Perform calls against `resilientApp` (`curl localhost:8080/recommender/outfit/123`)
 
+_Note:_ Both applications use Java 11.
