@@ -15,6 +15,9 @@ class LocationService {
     private static final double UPPER_BOUNDARY = 40.0;
 
     Temperature getTemperature(int locationId) {
+        invokeLatencyMonkey();
+        invokeChaosMonkey();
+
         Temperature temperatureReading = createRandomTemperature();
         logger.info("Temperature for location '{}' is '{}' degrees {}.", locationId, temperatureReading.getReading(), temperatureReading.getScale());
 
@@ -22,9 +25,38 @@ class LocationService {
     }
 
     private Temperature createRandomTemperature() {
-        Random random = new Random();
-        double reading = LOWER_BOUNDARY + random.nextDouble() * (UPPER_BOUNDARY - LOWER_BOUNDARY);
-
-        return new Temperature(reading, SCALE);
+        return new Temperature(LOWER_BOUNDARY + new Random().nextDouble() * (UPPER_BOUNDARY - LOWER_BOUNDARY), SCALE);
     }
+
+    /**
+     * Sleeps for a while, or does nothing.
+     */
+    private void invokeLatencyMonkey() {
+        if (isActionNecessary()) {
+            logger.info("Latency Monkey decided to wait for a while.");
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                logger.error("Thread interrupted", e);
+            }
+        } else {
+            logger.info("Latency Monkey decided to do nothing.");
+        }
+    }
+
+    /**
+     * Throws Temperature Reader Exception, or does nothing.
+     */
+    private void invokeChaosMonkey() {
+        if (isActionNecessary()) {
+            throw new TemperatureReaderException("Chaos Monkey decided to kill the Temperature Reader.");
+        } else {
+            logger.info("Chaos Monkey decided to do nothing.");
+        }
+    }
+
+    private boolean isActionNecessary() {
+        return new Random().nextBoolean();
+    }
+
 }
