@@ -4,7 +4,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,7 +11,6 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 @Service
-@EnableCircuitBreaker
 public class OutfitService {
 
     @Value("${temperature.service.base.url}")
@@ -28,6 +26,7 @@ public class OutfitService {
         this.suitableOutfits = initializeOutfitMapping();
     }
 
+    @HystrixCommand(fallbackMethod = "getFallbackRecommendation")
     public OutfitRecommendation recommendForLocation(int locationId) {
         OutfitRecommendation recommendation = new OutfitRecommendation();
 
@@ -38,7 +37,6 @@ public class OutfitService {
         return recommendation;
     }
 
-    @HystrixCommand(fallbackMethod = "getGlobalAverageTemperature")
     private Temperature retrieveTemperature(int locationId) {
         String url = temperatureServiceBaseUrl + "/" + locationId + RESOURCE_TEMPERATURE;
         logger.info("Performing REST call against Temperature Service: '{}'", url);
@@ -59,13 +57,13 @@ public class OutfitService {
         return recommendedOutfit;
     }
 
-    private Temperature getGlobalAverageTemperature() {
-        logger.info("Circuit open - getting temperature from fallback.");
-        Temperature globalAverage = new Temperature();
-        globalAverage.setReading(14.9D);
-        globalAverage.setScale("Celsius");
+    private OutfitRecommendation getFallbackRecommendation(int locationId) {
+        logger.info("Retrieving Fallback Recommendation.");
+        OutfitRecommendation recommendation = new OutfitRecommendation();
+        recommendation.setLocationId(locationId);
+        recommendation.setOutfit(Outfit.UNKNOWN);
 
-        return globalAverage;
+        return recommendation;
     }
 
     private NavigableMap<Double, Outfit> initializeOutfitMapping() {
