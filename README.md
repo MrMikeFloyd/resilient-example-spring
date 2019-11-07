@@ -1,15 +1,7 @@
 # Spring Resilience Example
 
-This is a simple mini-microservice example that showcases resilience capabilities by Spring, namely:
-
-* Circuit Breaker (using Hystrix)
-
-These will be used by `resilientApp` when interacting with `failingApp`.
-
-## TBD
-
-* Use Feign to make REST call to FailingApp
-* Add Hystrix Dashboard
+This is a simple mini-microservice example that showcases resilience functionalities  using Spring Boot & Spring Cloud Netflix Hystrix.
+A sample app, `resilientApp`, will use Circuit Breaker interacting with `failingApp`. `resilientApp` has a Hystrix Dashboard running, so the current state of the Circuit Breaker can be observed easily.
 
 ## ResilientApp
 
@@ -18,7 +10,10 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, defaulting to
 
 ## FailingApp
 
-`failingApp` gives callers the most recent temperature reading for a given location. It fails faily often, so callers should handle these failures accordingly.
+`failingApp` gives callers the most recent temperature reading for a given location. It fails faily often thanks to serious monkey business:
+
+* ChaosMonkey: For 50% of all calls throws a `RuntimeException`, otherwise does nothing.
+* LatencyMonkey: For 50% of all calls waits for 15 seconds, otherwise does nothing.
 
 ## How to run
 
@@ -26,5 +21,17 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, defaulting to
 2. Start `failingApp` (`cd failingApp && mvn spring-boot:run`)
 3. Start `resilientApp` (`cd resilientApp && mvn spring-boot:run`)
 4. Perform calls against `resilientApp` (`curl localhost:8080/recommender/outfit/123`)
+5. Access [Hystrix Dashboard](http://localhost:8080/hystrix/monitor?stream=http%3A%2F%2Flocalhost%3A8080%2Factuator%2Fhystrix.stream&title=Resilient%20App) to observe the status of the circuits.
+6. To perform a number of concurrent requests, run `./perform_GETs.sh`.
 
-_Note:_ Both applications use Java 11.
+## Endpoints
+
+* `resilientApp`: `localhost:8080/recommender/outfit/<id>`
+* `failingApp`: `http://localhost:8081/locations/<id>/temperature`
+
+
+## TBD
+
+* Use Feign to make REST call to FailingApp
+* Play around with various Circuit Breaker configs
+
