@@ -1,6 +1,7 @@
 package de.maik.resilientApp.recommender.outfit;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +27,23 @@ public class OutfitService {
         this.suitableOutfits = initializeOutfitMapping();
     }
 
-    @HystrixCommand(fallbackMethod = "getFallbackRecommendation")
-    public OutfitRecommendation recommendForLocation(int locationId) {
+    /**
+     * Method secured by Hystrix Proxy, defaults overridden. Would otherwise be:
+     * <ul>
+     *     <li>errorThresholdPercentage: >50%</li>
+     *     <li>requestVolumeThreshold: 20</li>
+     *     <li>timeInMilliseconds: 10000</li>
+     * </ul>
+     * @param locationId location for which to provide a recommendation
+     * @return recommended outfit for this location
+     */
+    @HystrixCommand(
+            commandProperties = {
+                    @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "40"),
+                    @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "15"),
+                    @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "20000")},
+            fallbackMethod = "getFallbackRecommendation")
+    OutfitRecommendation recommendForLocation(int locationId) {
         OutfitRecommendation recommendation = new OutfitRecommendation();
 
         Temperature temperatureReading = retrieveTemperature(locationId);
