@@ -29,9 +29,10 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, defaulting to
 * `resilientApp`: `localhost:8080/recommender/outfit/<id>`
 * `failingApp`: `http://localhost:8081/locations/<id>/temperature`
 
+## Further reading
+
+More on Hystrix [here](https://cloud.spring.io/spring-cloud-netflix/multi/multi__circuit_breaker_hystrix_clients.html).
 
 ## TBD
 
 * Use Feign to make REST call to FailingApp
-* Play around with various Circuit Breaker configs
-
