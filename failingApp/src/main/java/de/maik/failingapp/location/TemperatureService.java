@@ -1,4 +1,4 @@
-package de.maik.failingApp.location;
+package de.maik.failingapp.location;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-class LocationService {
+class TemperatureService {
 
-    private static Logger logger = LoggerFactory.getLogger(LocationService.class);
+    private static Logger logger = LoggerFactory.getLogger(TemperatureService.class);
     private static final String SCALE = "Celsius";
     private static final double LOWER_BOUNDARY = -10.0;
     private static final double UPPER_BOUNDARY = 40.0;

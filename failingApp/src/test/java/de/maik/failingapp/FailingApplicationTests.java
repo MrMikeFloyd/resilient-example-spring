@@ -1,10 +1,10 @@
-package de.maik.failingApp;
+package de.maik.failingapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FailingAppApplicationTests {
+class FailingApplicationTests {
 
 	@Test
 	void contextLoads() {
