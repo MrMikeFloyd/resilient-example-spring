@@ -9,16 +9,16 @@ A sample app, `resilientApp`, will use Circuit Breaker interacting with `failing
 In order to handle failing calls, Hystrix Circuit Breaker is used, using fallback methods to give callers a timely response.
 `resilientApp` exposes 2 endpoints:
 
-* `localhost:8080/recommender/<location>/visit` For advice on whether or not to visit a given location id
-* `localhost:8080/recommender/<location>/outfit` For outfit recommendations for a given location id
+* `localhost:8080/recommender/<locationId>/visit` For advice on whether or not to visit a given location id
+* `localhost:8080/recommender/<locationId>/outfit` For outfit recommendations for a given location id
 
 
 ## FailingApp
 
 `failingApp` exposes 2 endpoints, one for a location's popularity score, and one for a location's most recent temperature reading:
 
-* `localhost:8081/locations/123/popularity` For popularity scores (fairly stable)
-* `localhost:8081/locations/123/temperature` For temperature readings (_unstable_)
+* `localhost:8081/locations/<locationId>/popularity` For popularity scores (fairly stable)
+* `localhost:8081/locations/<locationId>/temperature` For temperature readings (_unstable_)
 
 While the popularity score endpoint is fairly stable, the resource providing temperature readings fails faily often thanks to some serious monkey business:
 
