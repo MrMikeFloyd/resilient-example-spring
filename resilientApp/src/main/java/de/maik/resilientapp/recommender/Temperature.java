@@ -1,4 +1,4 @@
-package de.maik.resilientApp.recommender.outfit;
+package de.maik.resilientapp.recommender;
 
 public class Temperature {
     private double reading;

@@ -5,34 +5,36 @@ A sample app, `resilientApp`, will use Circuit Breaker interacting with `failing
 
 ## ResilientApp
 
-`resilientApp` gives callers recommendations on what to wear in a given Location. It accepts a location ID and returns an appropriate outfit. The appropriate outfit is decided upon according to the current temperature at the specified location. The most recent temperature reading is retrieved from `failingApp`, which is likely to fail.
-In order to handle failing calls, Hystrix Circuit Breaker is used, defaulting to a fixed temperature value.
+`resilientApp` gives callers recommendations on which places to visit (according to their popularity) and what to wear in these places (according to their outside temperature). For making recommendations, `resilientApp` retrieves data on the popularity and the current temperature for a given location from another application, `failingApp`, which is likely to fail.
+In order to handle failing calls, Hystrix Circuit Breaker is used, using fallback methods to give callers a timely response.
+`resilientApp` exposes 2 endpoints:
+
+* `localhost:8080/recommender/<location>/visit` For advice on whether or not to visit a given location id
+* `localhost:8080/recommender/<location>/outfit` For outfit recommendations for a given location id
+
 
 ## FailingApp
 
-`failingApp` gives callers the most recent temperature reading for a given location. It fails faily often thanks to serious monkey business:
+`failingApp` exposes 2 endpoints, one for a location's popularity score, and one for a location's most recent temperature reading:
 
-* ChaosMonkey: For 50% of all calls throws a `RuntimeException`, otherwise does nothing.
-* LatencyMonkey: For 50% of all calls waits for 15 seconds, otherwise does nothing.
+* `localhost:8081/locations/123/popularity` For popularity scores (fairly stable)
+* `localhost:8081/locations/123/temperature` For temperature readings (_unstable_)
+
+While the popularity score endpoint is fairly stable, the resource providing temperature readings fails faily often thanks to some serious monkey business:
+
+* _ChaosMonkey_: For 50% of all calls throws a `RuntimeException`, otherwise does nothing.
+* _LatencyMonkey_: For 50% of all calls waits for 15 seconds, otherwise does nothing.
 
 ## How to run
 
 1. Clone this repository
 2. Start `failingApp` (`cd failingApp && mvn spring-boot:run`)
 3. Start `resilientApp` (`cd resilientApp && mvn spring-boot:run`)
-4. Perform calls against `resilientApp` (`curl localhost:8080/recommender/outfit/123`)
+4. Perform calls against `resilientApp` (`curl localhost:8080/recommender/123/outfit`)
 5. Access [Hystrix Dashboard](http://localhost:8080/hystrix/monitor?stream=http%3A%2F%2Flocalhost%3A8080%2Factuator%2Fhystrix.stream&title=Resilient%20App) to observe the status of the circuits.
 6. To perform a number of concurrent requests, run `./perform_GETs.sh`.
-
-## Endpoints
-
-* `resilientApp`: `localhost:8080/recommender/outfit/<id>`
-* `failingApp`: `http://localhost:8081/locations/<id>/temperature`
 
 ## Further reading
 
 More on Hystrix [here](https://cloud.spring.io/spring-cloud-netflix/multi/multi__circuit_breaker_hystrix_clients.html).
 
-## TBD
-
-* Use Feign to make REST call to FailingApp

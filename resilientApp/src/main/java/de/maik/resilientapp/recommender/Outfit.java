@@ -1,4 +1,4 @@
-package de.maik.resilientApp.recommender.outfit;
+package de.maik.resilientapp.recommender;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

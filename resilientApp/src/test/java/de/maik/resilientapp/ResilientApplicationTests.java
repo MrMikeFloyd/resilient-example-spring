@@ -1,10 +1,10 @@
-package de.maik.resilientApp;
+package de.maik.resilientapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ResilientAppApplicationTests {
+class ResilientApplicationTests {
 
 	@Test
 	void contextLoads() {

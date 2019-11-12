@@ -1,4 +1,4 @@
-package de.maik.resilientApp;
+package de.maik.resilientapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,10 +8,10 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 @SpringBootApplication
 @EnableCircuitBreaker
 @EnableHystrixDashboard
-public class ResilientAppApplication {
+public class ResilientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ResilientAppApplication.class, args);
+        SpringApplication.run(ResilientApplication.class, args);
     }
 
 }

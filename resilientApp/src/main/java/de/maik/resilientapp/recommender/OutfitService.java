@@ -1,4 +1,4 @@
-package de.maik.resilientApp.recommender.outfit;
+package de.maik.resilientapp.recommender;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -14,8 +14,8 @@ import java.util.TreeMap;
 @Service
 public class OutfitService {
 
-    @Value("${temperature.service.base.url}")
-    private String temperatureServiceBaseUrl;
+    @Value("${location.service.base.url}")
+    private String locationServiceBaseUrl;
     private static final String RESOURCE_TEMPERATURE = "/temperature";
     private RestTemplate restTemplate;
     private NavigableMap<Double, Outfit> suitableOutfits;
@@ -30,11 +30,12 @@ public class OutfitService {
     /**
      * Method secured by Hystrix Proxy, defaults overridden. Would otherwise be:
      * <ul>
-     *     <li>errorThresholdPercentage: >50%</li>
-     *     <li>requestVolumeThreshold: 20</li>
-     *     <li>timeInMilliseconds: 10000</li>
+     * <li>errorThresholdPercentage: >50%</li>
+     * <li>requestVolumeThreshold: 20</li>
+     * <li>timeInMilliseconds: 10000</li>
      * </ul>
-     * @param locationId location for which to provide a recommendation
+     *
+     * @param locationId for which to provide a recommendation
      * @return recommended outfit for this location
      */
     @HystrixCommand(
@@ -43,7 +44,7 @@ public class OutfitService {
                     @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "15"),
                     @HystrixProperty(name = "metrics.rollingStats.timeInMilliseconds", value = "20000")},
             fallbackMethod = "getFallbackRecommendation")
-    OutfitRecommendation recommendForLocation(int locationId) {
+    public OutfitRecommendation recommendOutfitForLocation(int locationId) {
         OutfitRecommendation recommendation = new OutfitRecommendation();
 
         Temperature temperatureReading = retrieveTemperature(locationId);
@@ -54,8 +55,8 @@ public class OutfitService {
     }
 
     private Temperature retrieveTemperature(int locationId) {
-        String url = temperatureServiceBaseUrl + "/" + locationId + RESOURCE_TEMPERATURE;
-        logger.info("Performing REST call against Temperature Service: '{}'", url);
+        String url = locationServiceBaseUrl + "/" + locationId + RESOURCE_TEMPERATURE;
+        logger.info("Performing REST call against Location Information Service: '{}'", url);
 
         return restTemplate.getForObject(url, Temperature.class);
     }
