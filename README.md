@@ -5,7 +5,7 @@ A sample app, `resilientApp`, will use Circuit Breaker interacting with `failing
 
 ## ResilientApp
 
-`resilientApp` gives callers recommendations on which places to visit (according to their popularity) and what to wear in these places (according to their outside temperature). For making recommendations, `resilientApp` retrieves data on the popularity and the current temperature for a given location from another application, `failingApp`, which is likely to fail.
+`resilientApp` gives callers recommendations on which places to visit (according to their popularity) and what to wear in these places (according to their outside temperature). For making recommendations, `resilientApp` depends on another application, `failingApp`, which is likely to fail.
 In order to handle failing calls, Hystrix Circuit Breaker is used, using fallback methods to give callers a timely response.
 `resilientApp` exposes 2 endpoints:
 
@@ -15,7 +15,7 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, using fallbac
 
 ## FailingApp
 
-`failingApp` exposes 2 endpoints, one for a location's popularity score, and one for a location's most recent temperature reading:
+`failingApp` exposes 2 endpoints, one for a location's popularity score, and one for a location's most recent temperature reading. Both are consumed by `resilientApp`:
 
 * `localhost:8081/locations/<locationId>/popularity` For popularity scores (fairly stable)
 * `localhost:8081/locations/<locationId>/temperature` For temperature readings (_unstable_)
