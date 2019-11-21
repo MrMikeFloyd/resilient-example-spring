@@ -1,7 +1,9 @@
-# Spring Resilience Example
+# Resilience in Spring with the Circuit Breaker pattern
 
-This is a simple mini-microservice example that showcases resilience functionalities  using Spring Boot & Spring Cloud Netflix Hystrix.
+This is a simple mini-microservice example that showcases the Circuit Breaker pattern using Spring Boot & Spring Cloud Netflix Hystrix.
 A sample app, `resilientApp`, will use Circuit Breaker interacting with `failingApp`. `resilientApp` has a Hystrix Dashboard running, so the current state of the Circuit Breaker can be observed easily.
+
+_Note: Please bear in mind that Hystrix is no longer being maintained by Netflix. For the sake of simplicity and ease of obervability through the Hystrix dashboard, I nonetheless decided to use Hystrix for this sample. If you plan on using Circuit Breaker in production, please consider an actively maintained library providing implementations, such as [resilience4J](https://github.com/resilience4j/resilience4j) or [Sentinel](https://github.com/alibaba/Sentinel)._
 
 ## ResilientApp
 
