@@ -38,5 +38,6 @@ While the popularity score endpoint is fairly stable, the resource providing tem
 
 ## Further reading
 
-More on Hystrix [here](https://cloud.spring.io/spring-cloud-netflix/multi/multi__circuit_breaker_hystrix_clients.html).
+* See my blog post on the Circuit Breaker pattern [here](https://convincingbits.wordpress.com/2019/11/13/microservice-resilience-with-spring-cloud-netflix-hystrix/).
+* More on Hystrix [here](https://cloud.spring.io/spring-cloud-netflix/multi/multi__circuit_breaker_hystrix_clients.html).
 
