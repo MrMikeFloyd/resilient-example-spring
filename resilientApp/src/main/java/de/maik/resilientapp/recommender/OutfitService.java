@@ -22,12 +22,15 @@ public class OutfitService {
     private NavigableMap<Double, Outfit> suitableOutfits;
     private Logger logger;
 
+    public OutfitService() {
+        this.suitableOutfits = initializeOutfitMapping();
+    }
+
     @PostConstruct
     private void initialize() {
         this.logger = LoggerFactory.getLogger(OutfitService.class);
         logger.info("Initializing component.");
         this.restTemplate = new RestTemplate();
-        this.suitableOutfits = initializeOutfitMapping();
     }
 
     /**
@@ -93,7 +96,7 @@ public class OutfitService {
         suitableOutfits.put(10D, Outfit.INTERMEDIATE);
         suitableOutfits.put(20D, Outfit.WARM);
         suitableOutfits.put(30D, Outfit.VERY_WARM);
-        suitableOutfits.put(Double.POSITIVE_INFINITY, Outfit.SUPER_WARM);
+        suitableOutfits.put(40D, Outfit.SUPER_WARM);
 
         return suitableOutfits;
     }
