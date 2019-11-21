@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class VisitationService {
 
@@ -19,8 +21,10 @@ public class VisitationService {
     private RestTemplate restTemplate;
     private Logger logger;
 
-    public VisitationService() {
+    @PostConstruct
+    private void initialize() {
         this.logger = LoggerFactory.getLogger(VisitationService.class);
+        logger.info("Initializing component.");
         this.restTemplate = new RestTemplate();
     }
 

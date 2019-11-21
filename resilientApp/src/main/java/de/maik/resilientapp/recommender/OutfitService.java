@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -21,8 +22,10 @@ public class OutfitService {
     private NavigableMap<Double, Outfit> suitableOutfits;
     private Logger logger;
 
-    public OutfitService() {
+    @PostConstruct
+    private void initialize() {
         this.logger = LoggerFactory.getLogger(OutfitService.class);
+        logger.info("Initializing component.");
         this.restTemplate = new RestTemplate();
         this.suitableOutfits = initializeOutfitMapping();
     }
