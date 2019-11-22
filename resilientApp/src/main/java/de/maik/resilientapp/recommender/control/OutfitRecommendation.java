@@ -1,4 +1,4 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.control;
 
 public class OutfitRecommendation extends Recommendation {
     private Outfit outfit;

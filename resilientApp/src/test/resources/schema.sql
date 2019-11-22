@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS weather(
+    id INTEGER PRIMARY KEY,
+    location_id INTEGER NOT NULL,
+    temperature DOUBLE NOT NULL,
+    scale VARCHAR(15) NOT NULL,
+    created TIMESTAMP WITH TIME ZONE NOT NULL
+)

@@ -1,6 +1,7 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.control;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import de.maik.resilientapp.recommender.entity.Popularity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,5 +1,9 @@
 package de.maik.resilientapp.recommender;
 
+import de.maik.resilientapp.recommender.control.Outfit;
+import de.maik.resilientapp.recommender.control.OutfitRecommendation;
+import de.maik.resilientapp.recommender.control.OutfitService;
+import de.maik.resilientapp.recommender.entity.Temperature;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

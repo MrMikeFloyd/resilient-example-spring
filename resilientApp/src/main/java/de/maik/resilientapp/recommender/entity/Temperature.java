@@ -1,8 +1,16 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.entity;
 
 public class Temperature {
     private double reading;
     private String scale;
+
+    public Temperature(){
+    };
+
+    public Temperature(double reading, String scale) {
+        this.reading = reading;
+        this.scale = scale;
+    }
 
     public double getReading() {
         return reading;

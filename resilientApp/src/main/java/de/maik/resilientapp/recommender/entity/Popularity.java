@@ -1,4 +1,4 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.entity;
 
 public class Popularity {
     private int popularityScore;

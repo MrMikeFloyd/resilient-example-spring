@@ -1,5 +1,6 @@
 package de.maik.resilientapp.recommender;
 
+import de.maik.resilientapp.recommender.control.Outfit;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
