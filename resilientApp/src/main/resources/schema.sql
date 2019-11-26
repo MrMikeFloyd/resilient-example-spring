@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS weather;
 CREATE TABLE weather (
     id INT PRIMARY KEY,
     location_id INT NOT NULL,

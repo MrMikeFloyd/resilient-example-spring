@@ -1,9 +1,7 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.control;
 
-import de.maik.resilientapp.recommender.control.Outfit;
-import de.maik.resilientapp.recommender.control.OutfitRecommendation;
-import de.maik.resilientapp.recommender.control.OutfitService;
 import de.maik.resilientapp.recommender.entity.Temperature;
+import de.maik.resilientapp.recommender.entity.WeatherRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,10 +24,13 @@ class OutfitServiceTest {
     private RestTemplate restTemplate;
 
     @Mock
+    private WeatherRepository weatherRepository;
+
+    @Mock
     private Logger logger;
 
     @InjectMocks
-    OutfitService outfitService;
+    OutfitService outfitService = new OutfitService();
 
     @Test
     void minus20YieldsSuperColdOutfit() {

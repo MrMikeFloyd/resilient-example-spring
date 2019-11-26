@@ -1,4 +1,4 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.control;
 
 import de.maik.resilientapp.recommender.control.Outfit;
 import org.junit.jupiter.api.Test;

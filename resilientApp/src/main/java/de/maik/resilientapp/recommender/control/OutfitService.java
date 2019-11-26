@@ -3,8 +3,10 @@ package de.maik.resilientapp.recommender.control;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import de.maik.resilientapp.recommender.entity.Temperature;
+import de.maik.resilientapp.recommender.entity.WeatherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -20,10 +22,17 @@ public class OutfitService {
     private String locationServiceBaseUrl;
     private static final String RESOURCE_TEMPERATURE = "/temperature";
     private RestTemplate restTemplate;
+    private WeatherRepository weatherRepository;
     private NavigableMap<Double, Outfit> suitableOutfits;
     private Logger logger;
 
-    public OutfitService() {
+    @Autowired
+    public OutfitService(WeatherRepository weatherRepository) {
+        this();
+        this.weatherRepository = weatherRepository;
+    }
+
+    OutfitService() {
         this.suitableOutfits = initializeOutfitMapping();
     }
 
@@ -69,23 +78,18 @@ public class OutfitService {
     }
 
     private Outfit recommendOutfit(Temperature temperature) {
-        Outfit recommendedOutfit;
-        if (temperature != null) {
-            recommendedOutfit = suitableOutfits.floorEntry(temperature.getReading()).getValue();
-        } else {
-            recommendedOutfit = Outfit.UNKNOWN;
-        }
-
+        Outfit recommendedOutfit = temperature != null ? suitableOutfits.floorEntry(temperature.getReading()).getValue() : Outfit.UNKNOWN;
         logger.info("The temperature is {} degrees => recommending outfit '{}'", temperature.getReading(), recommendedOutfit.value);
 
         return recommendedOutfit;
     }
 
     private OutfitRecommendation getFallbackRecommendation(int locationId) {
-        logger.info("Retrieving Fallback Recommendation.");
+        logger.info("Retrieving Fallback Recommendation from local DB.");
+
         OutfitRecommendation recommendation = new OutfitRecommendation();
         recommendation.setLocationId(locationId);
-        recommendation.setOutfit(Outfit.UNKNOWN);
+        recommendation.setOutfit(recommendOutfit(weatherRepository.findMostRecentTemperatureByLocationId(locationId)));
 
         return recommendation;
     }
