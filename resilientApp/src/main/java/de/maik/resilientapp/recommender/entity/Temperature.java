@@ -27,4 +27,12 @@ public class Temperature {
     public void setScale(String scale) {
         this.scale = scale;
     }
+
+    @Override
+    public String toString() {
+        return "Temperature{" +
+                "reading=" + reading +
+                ", scale='" + scale + '\'' +
+                '}';
+    }
 }
