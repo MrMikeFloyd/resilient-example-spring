@@ -78,8 +78,14 @@ public class OutfitService {
     }
 
     private Outfit recommendOutfit(Temperature temperature) {
-        Outfit recommendedOutfit = temperature != null ? suitableOutfits.floorEntry(temperature.getReading()).getValue() : Outfit.UNKNOWN;
-        logger.info("The temperature is {} degrees => recommending outfit '{}'", temperature.getReading(), recommendedOutfit.value);
+        Outfit recommendedOutfit;
+        if(temperature != null) {
+            recommendedOutfit = suitableOutfits.floorEntry(temperature.getReading()).getValue();
+            logger.info("The temperature is {} degrees => recommending outfit '{}'", temperature.getReading(), recommendedOutfit.value);
+        } else {
+            recommendedOutfit = Outfit.UNKNOWN;
+            logger.info("No current temperature reading available => recommending outfit '{}'", recommendedOutfit.value);
+        }
 
         return recommendedOutfit;
     }
