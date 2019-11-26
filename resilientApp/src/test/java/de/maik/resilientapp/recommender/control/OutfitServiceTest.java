@@ -15,6 +15,10 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+/**
+ * Regular Unit Tests for OutfitService.
+ * External dependencies mocked.
+ */
 @ExtendWith(MockitoExtension.class)
 class OutfitServiceTest {
 

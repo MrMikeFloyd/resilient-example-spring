@@ -32,6 +32,9 @@ public class OutfitService {
         this.weatherRepository = weatherRepository;
     }
 
+    /**
+     * No-Arg-Constructor for convenient mocking.
+     */
     OutfitService() {
         this.suitableOutfits = initializeOutfitMapping();
     }
