@@ -1,6 +1,5 @@
 package de.maik.resilientapp.recommender.entity;
 
-import de.maik.resilientapp.recommender.control.VisitationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class WeatherRepository {
      * Returns the most recent temperature reading for a given Location.
      *
      * @param locationId the location for which to get the most recent temperature reading
-     * @return the most recent temperature reading; null of no records are found
+     * @return the most recent temperature reading; null if no records are found
      */
     public Temperature findMostRecentByLocationId(Integer locationId) {
         return jdbcTemplate.query(
