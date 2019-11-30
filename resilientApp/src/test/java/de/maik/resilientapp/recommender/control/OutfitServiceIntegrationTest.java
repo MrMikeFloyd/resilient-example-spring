@@ -48,7 +48,7 @@ public class OutfitServiceIntegrationTest {
 
     @Test
     void retrievesUnknownOutfitRecommendationForNonExistentLocationInRemoteRestService() {
-        // GIVEN - a remote service that responds 25 degrees for location 1
+        // GIVEN - a remote service that reports 25 degrees for location 1
         stubFor(get(urlEqualTo("/locations/1/temperature"))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
