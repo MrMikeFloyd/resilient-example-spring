@@ -1,5 +1,9 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.boundary;
 
+import de.maik.resilientapp.recommender.control.OutfitRecommendation;
+import de.maik.resilientapp.recommender.control.OutfitService;
+import de.maik.resilientapp.recommender.control.VisitationRecommendation;
+import de.maik.resilientapp.recommender.control.VisitationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

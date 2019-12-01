@@ -1,13 +1,17 @@
-package de.maik.resilientapp.recommender;
+package de.maik.resilientapp.recommender.control;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import de.maik.resilientapp.recommender.entity.Temperature;
+import de.maik.resilientapp.recommender.entity.WeatherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -18,13 +22,28 @@ public class OutfitService {
     private String locationServiceBaseUrl;
     private static final String RESOURCE_TEMPERATURE = "/temperature";
     private RestTemplate restTemplate;
+    private WeatherRepository weatherRepository;
     private NavigableMap<Double, Outfit> suitableOutfits;
     private Logger logger;
 
-    public OutfitService() {
-        this.logger = LoggerFactory.getLogger(OutfitService.class);
-        this.restTemplate = new RestTemplate();
+    @Autowired
+    public OutfitService(WeatherRepository weatherRepository) {
+        this();
+        this.weatherRepository = weatherRepository;
+    }
+
+    /**
+     * No-Arg-Constructor for convenient mocking.
+     */
+    OutfitService() {
         this.suitableOutfits = initializeOutfitMapping();
+    }
+
+    @PostConstruct
+    private void initialize() {
+        this.logger = LoggerFactory.getLogger(OutfitService.class);
+        logger.info("Initializing component.");
+        this.restTemplate = new RestTemplate();
     }
 
     /**
@@ -63,22 +82,23 @@ public class OutfitService {
 
     private Outfit recommendOutfit(Temperature temperature) {
         Outfit recommendedOutfit;
-        if (temperature != null) {
+        if(temperature != null) {
             recommendedOutfit = suitableOutfits.floorEntry(temperature.getReading()).getValue();
+            logger.info("The temperature is {} degrees => recommending outfit '{}'", temperature.getReading(), recommendedOutfit.value);
         } else {
             recommendedOutfit = Outfit.UNKNOWN;
+            logger.info("No current temperature reading available => recommending outfit '{}'", recommendedOutfit.value);
         }
-
-        logger.info("The temperature is {} degrees => recommending outfit '{}'", temperature.getReading(), recommendedOutfit.value);
 
         return recommendedOutfit;
     }
 
     private OutfitRecommendation getFallbackRecommendation(int locationId) {
-        logger.info("Retrieving Fallback Recommendation.");
+        logger.info("Retrieving Fallback Recommendation from local DB.");
+
         OutfitRecommendation recommendation = new OutfitRecommendation();
         recommendation.setLocationId(locationId);
-        recommendation.setOutfit(Outfit.UNKNOWN);
+        recommendation.setOutfit(recommendOutfit(weatherRepository.findMostRecentTemperatureByLocationId(locationId)));
 
         return recommendation;
     }
@@ -90,7 +110,7 @@ public class OutfitService {
         suitableOutfits.put(10D, Outfit.INTERMEDIATE);
         suitableOutfits.put(20D, Outfit.WARM);
         suitableOutfits.put(30D, Outfit.VERY_WARM);
-        suitableOutfits.put(Double.POSITIVE_INFINITY, Outfit.SUPER_WARM);
+        suitableOutfits.put(40D, Outfit.SUPER_WARM);
 
         return suitableOutfits;
     }

@@ -1,7 +1,7 @@
 # Resilience in Spring with the Circuit Breaker pattern
 
 This is a simple mini-microservice example that showcases the Circuit Breaker pattern using Spring Boot & Spring Cloud Netflix Hystrix.
-A sample app, `resilientApp`, will use Circuit Breaker interacting with `failingApp`. `resilientApp` has a Hystrix Dashboard running, so the current state of the Circuit Breaker can be observed easily.
+A sample app, `resilientApp`, will use Circuit Breaker interacting with `failingApp`. `resilientApp` has a Hystrix Dashboard running, so the current state of the Circuit Breaker can be observed easily. `resilientApp` furthermore contains a few tests to demonstrate Springs support for implementing Integration and API tests.
 
 _Note: Please bear in mind that Hystrix is no longer being maintained by Netflix. For the sake of simplicity and ease of obervability through the Hystrix dashboard, I nonetheless decided to use Hystrix for this sample. If you plan on using Circuit Breaker in production, please consider an actively maintained library providing implementations, such as [resilience4J](https://github.com/resilience4j/resilience4j) or [Sentinel](https://github.com/alibaba/Sentinel)._
 
@@ -14,6 +14,7 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, using fallbac
 * `localhost:8080/recommender/<locationId>/visit` For advice on whether or not to visit a given location id
 * `localhost:8080/recommender/<locationId>/outfit` For outfit recommendations for a given location id
 
+The application uses Springdoc's OpenAPI UI, so the endpoints can be explored and tested using the [Swagger UI](http://localhost:8080/swagger-ui).
 
 ## FailingApp
 
@@ -22,6 +23,7 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, using fallbac
 * `localhost:8081/locations/<locationId>/popularity` For popularity scores (fairly stable)
 * `localhost:8081/locations/<locationId>/temperature` For temperature readings (_unstable_)
 
+The application uses Springdoc's OpenAPI UI, so the endpoints can be explored and tested using the [Swagger UI](http://localhost:8081/swagger-ui).
 While the popularity score endpoint is fairly stable, the resource providing temperature readings fails faily often thanks to some serious monkey business:
 
 * _ChaosMonkey_: For 50% of all calls throws a `RuntimeException`, otherwise does nothing.
