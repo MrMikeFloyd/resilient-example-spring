@@ -43,7 +43,7 @@ public class OutfitServiceIntegrationTest {
         OutfitRecommendation expectedRecommendation = new OutfitRecommendation();
         expectedRecommendation.setLocationId(expectedLocationId);
         expectedRecommendation.setOutfit(Outfit.WARM);
-        assertThat(outfitService.recommendOutfitForLocation(expectedLocationId)).isEqualToComparingFieldByField(expectedRecommendation);
+        assertThat(actualRecommendation).isEqualToComparingFieldByField(expectedRecommendation);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class OutfitServiceIntegrationTest {
         OutfitRecommendation expectedRecommendation = new OutfitRecommendation();
         expectedRecommendation.setLocationId(expectedLocationId);
         expectedRecommendation.setOutfit(Outfit.UNKNOWN);
-        assertThat(outfitService.recommendOutfitForLocation(expectedLocationId)).isEqualToComparingFieldByField(expectedRecommendation);
+        assertThat(actualRecommendation).isEqualToComparingFieldByField(expectedRecommendation);
     }
 
     @Test
