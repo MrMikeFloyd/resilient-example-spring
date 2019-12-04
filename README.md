@@ -14,8 +14,6 @@ In order to handle failing calls, Hystrix Circuit Breaker is used, using fallbac
 * `localhost:8080/recommender/<locationId>/visit` For advice on whether or not to visit a given location id
 * `localhost:8080/recommender/<locationId>/outfit` For outfit recommendations for a given location id
 
-The application uses Springdoc's OpenAPI UI, so the endpoints can be explored and tested using the [Swagger UI](http://localhost:8080/swagger-ui).
-
 ## FailingApp
 
 `failingApp` exposes 2 endpoints, one for a location's popularity score, and one for a location's most recent temperature reading. Both are consumed by `resilientApp`:
